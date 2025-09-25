@@ -1,7 +1,7 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, AllowAny
 from .models import Contestant
 from .serializers import ContestantSerializer
 from django.core.mail import send_mail
@@ -15,6 +15,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 class RegisterContestantView(generics.CreateAPIView):
   serializer_class = ContestantSerializer
+  permission_classes = [AllowAny]
 
   def post(self, request, *args, **kwargs):
     email = request.data.get('email')
@@ -33,6 +34,8 @@ class ContestantListView(generics.ListAPIView):
   permission_classes = [IsAdminUser]
 
 class VerifyAccountView(APIView):
+  permission_classes = [AllowAny]
+  
   def post(self, request, *args, **kwargs):
     token = request.data.get("token")
     password = request.data.get("password")

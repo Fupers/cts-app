@@ -5,5 +5,11 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
 
 app = Celery("backend")
 
-app.config_from_object("django.conf:settings", namespace="CELERY")
+REDIS_HOST = os.getenv("REDIS_HOST", "redis")
+REDIS_PORT = os.getenv("REDIS_PORT", "6379")
+REDIS_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
+
+app.conf.broker_url = REDIS_URL
+app.conf.result_backend = REDIS_URL
+
 app.autodiscover_tasks()

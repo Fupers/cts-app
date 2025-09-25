@@ -1,28 +1,51 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-sky-50">
-    <form @submit.prevent="register" class="bg-white p-8 rounded shadow-md shadow-gray-400/50 w-full max-w-md">
-      <h1 class="text-2xl font-bold mb-4 text-center text-sky-600">Registro Concurso</h1>
-      <input 
-        v-model="name" 
-        placeholder="Nombre completo"
-        type="text"
-        class="input focus:outline-none focus:ring-1 focus:ring-sky-400 focus:border-sky-400"
-      />
-      <input 
-        v-model="email" 
-        placeholder="Correo electrónico" 
-        type="email" 
-        class="input focus:outline-none focus:ring-1 focus:ring-sky-400 focus:border-sky-400"
-      />
-      <input 
-        v-model="phone" 
-        placeholder="Teléfono" 
-        type="tel"
-        class="input focus:outline-none focus:ring-1 focus:ring-sky-400 focus:border-sky-400"
-      />
-      <button class="w-full bg-sky-500 text-white py-2 rounded mt-4 hover:bg-sky-700">Registrarse</button>
-      <p v-if="message" class="mt-2 text-green-700">{{ message }}</p>
-    </form>
+  <div class="min-h-screen flex flex-col bg-sky-50">
+    <!-- Botón Admin arriba a la derecha -->
+    <div class="w-full flex justify-end p-4">
+      <router-link 
+        to="/admin/login" 
+        class="text-gray-400 text-sm hover:text-sky-600 transition"
+      >
+        Admin
+      </router-link>
+    </div>
+
+    <!-- Formulario centrado -->
+    <div class="flex flex-1 items-center justify-center">
+      <form 
+        @submit.prevent="register" 
+        class="bg-white p-8 rounded shadow-md shadow-gray-400/50 w-full max-w-md"
+      >
+        <h1 class="text-2xl font-bold mb-4 text-center text-sky-600">Registro Concurso</h1>
+        
+        <input 
+          v-model="name" 
+          placeholder="Nombre completo"
+          type="text"
+          class="input focus:outline-none focus:ring-1 focus:ring-sky-400 focus:border-sky-400"
+        />
+        <input 
+          v-model="email" 
+          placeholder="Correo electrónico" 
+          type="email" 
+          class="input focus:outline-none focus:ring-1 focus:ring-sky-400 focus:border-sky-400"
+        />
+        <input 
+          v-model="phone" 
+          placeholder="Teléfono" 
+          type="tel"
+          class="input focus:outline-none focus:ring-1 focus:ring-sky-400 focus:border-sky-400"
+        />
+        
+        <button 
+          class="w-full bg-sky-500 text-white py-2 rounded mt-4 hover:bg-sky-700"
+        >
+          Registrarse
+        </button>
+        
+        <p v-if="message" class="mt-2 text-green-700">{{ message }}</p>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -44,12 +67,12 @@ export default {
           name: name.value,
           email: email.value,
           phone: phone.value
-        });
-        message.value = '¡Gracias por registrarte! Revisa tu correo para verificar tu cuenta.';
+        })
+        message.value = '¡Gracias por registrarte! Revisa tu correo para verificar tu cuenta.'
       } catch (err) {
-        message.value = store.error || 'Ocurrió un error al registrarte';
+        message.value = store.error || 'Ocurrió un error al registrarte'
       }
-    };
+    }
 
     return { name, email, phone, message, register }
   }

@@ -12,51 +12,64 @@ export const useContestantStore = defineStore("contestant", {
   }),
 
   actions: {
+    // Registro público
     async register(data: { name: string; email: string; phone: string }) {
       try {
         this.loading = true;
         const res = await api.post("/contest/register/", data);
         return res.data;
       } catch (err: any) {
-        this.error = err.response?.data || "Error en registro";
+        this.error = err.response?.data?.error || "Error en registro";
         throw err;
       } finally {
         this.loading = false;
       }
     },
 
+    // Verificación pública con token
+    async verify(token: string) {
+      try {
+        this.loading = true;
+        const res = await api.post("/contest/verify/", { token });
+        return res.data;
+      } catch (err: any) {
+        this.error = err.response?.data?.error || "Error en verificación";
+        throw err;
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    // Obtener concursantes (requiere admin token)
     async fetchContestants(page = 1) {
       try {
-        this.loading = true
+        this.loading = true;
 
-        // Obtener token del admin
-        const token = localStorage.getItem("adminToken")
+        const token = localStorage.getItem("adminToken");
         if (!token) {
-          window.location.href = "/admin/login"
-          return
+          window.location.href = "/admin/login";
+          return;
         }
 
-        const res = await api.get(`admin/contest/`, {
+        const res = await api.get("admin/contest/", {
           params: { page },
           headers: { Authorization: `Bearer ${token}` },
-        })
+        });
 
-        this.contestants = res.data.results
-        this.total = res.data.count
-        this.next = res.data.next
-        this.previous = res.data.previous
+        this.contestants = res.data.results;
+        this.total = res.data.count;
+        this.next = res.data.next;
+        this.previous = res.data.previous;
       } catch (err: any) {
-        this.error = err.response?.data?.detail || err.message
+        this.error = err.response?.data?.detail || err.message;
 
-        // Si el token es invalido o expiro
         if (err.response?.status === 401) {
-          localStorage.removeItem("adminToken")
-          window.location.href = "/admin/login"
+          localStorage.removeItem("adminToken");
+          window.location.href = "/admin/login";
         }
       } finally {
-        this.loading = false
+        this.loading = false;
       }
     },
   },
 });
-

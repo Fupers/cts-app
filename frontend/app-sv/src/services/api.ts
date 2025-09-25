@@ -8,13 +8,17 @@ const api = axios.create({
   },
 });
 
-// Interceptor para agregar token a cada request
+// Interceptor para agregar token solo si es admin endpoint
 api.interceptors.request.use(config => {
   const token = localStorage.getItem("adminToken");
-  if (token && config.headers) {
+  
+  // Solo agregar Authorization si la URL contiene /admin
+  if (token && config.url?.startsWith("/admin") && config.headers) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
   return config;
 });
 
 export default api;
+
