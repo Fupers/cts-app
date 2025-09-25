@@ -24,11 +24,13 @@
 <script lang="ts">
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { useRouter } from "vue-router"
 import api from '../services/api'
 
 export default {
   setup() {
     const route = useRoute()
+    const router = useRouter()
     const token = route.params.token || route.query.token
 
     const password = ref('')
@@ -50,7 +52,9 @@ export default {
           token,
           password: password.value
         })
-        message.value = res.data.message || 'Cuenta activada con éxito'
+
+        router.push("/success")
+        
       } catch (err: any) {
         error.value = err.response?.data?.error || 'Error al verificar la cuenta'
       }

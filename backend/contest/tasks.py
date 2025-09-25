@@ -4,6 +4,7 @@ from .models import Contestant
 from django.conf import settings
 from .tokens import account_token
 
+# Mandar correo de verificacion
 @shared_task
 def send_verification_email(user_id):
     contestant = Contestant.objects.get(id=user_id)
@@ -18,6 +19,7 @@ def send_verification_email(user_id):
         fail_silently=False,
     )
 
+# Mandar correo de ganador
 @shared_task
 def send_winner_email(user_id):
     winner = Contestant.objects.get(id=user_id)

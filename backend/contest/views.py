@@ -13,6 +13,7 @@ from django.shortcuts import get_object_or_404
 from .tokens import account_token
 from rest_framework_simplejwt.views import TokenObtainPairView
 
+# registrar concursante
 class RegisterContestantView(generics.CreateAPIView):
   serializer_class = ContestantSerializer
   permission_classes = [AllowAny]
@@ -28,11 +29,13 @@ class RegisterContestantView(generics.CreateAPIView):
 
     return response
 
+# lista de concursantes
 class ContestantListView(generics.ListAPIView):
   queryset = Contestant.objects.all().order_by('-created_at')
   serializer_class = ContestantSerializer
   permission_classes = [IsAdminUser]
 
+# verificar concursante
 class VerifyAccountView(APIView):
   permission_classes = [AllowAny]
   
@@ -64,6 +67,7 @@ class VerifyAccountView(APIView):
       status=status.HTTP_200_OK
     )
 
+# generar ganador
 class DrawWinnerView(APIView):
   permission_classes = [IsAdminUser]
 
@@ -88,6 +92,7 @@ class DrawWinnerView(APIView):
       status=status.HTTP_200_OK
   )
 
+# notificar al ganador
 class NotifyWinnerView(APIView):
   permission_classes = [IsAdminUser]
 

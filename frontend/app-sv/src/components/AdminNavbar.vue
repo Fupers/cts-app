@@ -1,3 +1,4 @@
+<!-- Navbar admin -->
 <template>
   <nav class="bg-sky-600 text-white p-4 flex justify-between items-center">
     <div class="space-x-4">

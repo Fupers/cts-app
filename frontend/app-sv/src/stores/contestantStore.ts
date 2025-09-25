@@ -12,7 +12,7 @@ export const useContestantStore = defineStore("contestant", {
   }),
 
   actions: {
-    // Registro público
+    // Registro publico
     async register(data: { name: string; email: string; phone: string }) {
       try {
         this.loading = true;
@@ -26,7 +26,7 @@ export const useContestantStore = defineStore("contestant", {
       }
     },
 
-    // Verificación pública con token
+    // Verificación publica con token
     async verify(token: string) {
       try {
         this.loading = true;
